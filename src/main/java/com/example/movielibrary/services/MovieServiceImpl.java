@@ -49,11 +49,9 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public void update(int id, Movie movie) {
+    public void update(Movie movie) {
 
-        Movie movieToUpdate = getById(id);
-
-        repository.update(movieToUpdate);
+        repository.update(movie);
     }
 
     @Override

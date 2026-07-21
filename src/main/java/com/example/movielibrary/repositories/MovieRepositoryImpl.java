@@ -29,14 +29,14 @@ public class MovieRepositoryImpl implements MovieRepository{
     public Movie getById(int id) {
         return entityManager.createQuery("FROM Movie WHERE id =:id", Movie.class)
                 .setParameter("id", id)
-                .getSingleResult(); //TODO catch no result exception
+                .getSingleResult();
     }
 
     @Override
     public Movie getByTitle(String title) {
         return entityManager.createQuery("FROM Movie WHERE title = :title", Movie.class)
                 .setParameter("title", title)
-                .getSingleResult(); //TODO catch no result exception
+                .getSingleResult();
     }
 
     @Override
