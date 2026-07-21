@@ -1,0 +1,38 @@
+package com.example.movielibrary.services;
+
+import com.example.movielibrary.config.RestClientConfig;
+import com.example.movielibrary.models.MovieResponseDto;
+import com.example.movielibrary.models.OdbmResponseDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+@Service
+public class ExternalApiService {
+
+    private RestClient restClient;
+
+    @Value("${omdb.api.key}")
+    private String apikey;
+
+    @Autowired
+    public ExternalApiService(RestClient restClient){
+        this.restClient = restClient;
+    }
+
+    public OdbmResponseDto searchByTitle(String title){
+
+        return restClient.get()
+                .uri(
+                        uriBuilder ->
+                                uriBuilder
+                                        .path("/")
+                                        .queryParam("apikey", apikey)
+                                        .queryParam("t", title)
+                                        .build())
+                .retrieve()
+                .body(OdbmResponseDto.class);
+    }
+
+}

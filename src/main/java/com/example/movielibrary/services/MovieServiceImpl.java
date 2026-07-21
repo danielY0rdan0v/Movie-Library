@@ -2,7 +2,9 @@ package com.example.movielibrary.services;
 
 import com.example.movielibrary.exceptions.EntityNotFoundException;
 import com.example.movielibrary.models.Movie;
+import com.example.movielibrary.models.OdbmResponseDto;
 import com.example.movielibrary.repositories.MovieRepository;
+import com.example.movielibrary.utils.ModelMapper;
 import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,16 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService{
 
     MovieRepository repository;
+    ExternalApiService service;
+    ModelMapper mapper;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository repository){
+    public MovieServiceImpl(MovieRepository repository,
+                            ExternalApiService service,
+                            ModelMapper mapper){
         this.repository = repository;
+        this.service = service;
+        this.mapper = mapper;
     }
 
     @Override
@@ -33,19 +41,21 @@ public class MovieServiceImpl implements MovieService{
         }
     }
 
-    @Override
-    public Movie getByTitle(String title) {
-        try{
-            return repository.getByTitle(title);
-        }catch (NoResultException e){
-            throw new EntityNotFoundException("Not Found!"); //TODO fix
-        }
-    }
+
 
     @Override
     public void create(Movie movie) {
 
-        repository.create(movie);
+
+            OdbmResponseDto dto = service.searchByTitle(movie.getTitle());
+
+            if (dto.title() != null) {
+                Movie movieFromApi = mapper.fromDto(dto);
+                repository.create(movieFromApi);
+            }else {
+                repository.create(movie);
+        }
+
     }
 
     @Override

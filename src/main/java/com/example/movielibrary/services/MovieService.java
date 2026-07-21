@@ -10,7 +10,6 @@ public interface MovieService {
 
     Movie getById(int id);
 
-    Movie getByTitle(String title);
 
     void create(Movie movie);
     void update(Movie movie);

@@ -33,10 +33,12 @@ public class MovieRepositoryImpl implements MovieRepository{
     }
 
     @Override
-    public Movie getByTitle(String title) {
-        return entityManager.createQuery("FROM Movie WHERE title = :title", Movie.class)
+    public boolean getByTitle(String title) {
+        List<Movie> movies = entityManager.createQuery("FROM Movie WHERE title = :title", Movie.class)
                 .setParameter("title", title)
-                .getSingleResult();
+                .getResultList();
+
+        return movies.size() > 0;
     }
 
     @Override

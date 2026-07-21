@@ -17,7 +17,7 @@ public class Movie {
 
     private String director;
 
-    @Min(1888)
+
     @Column(name = "release_year")
     private int releaseYear;
 

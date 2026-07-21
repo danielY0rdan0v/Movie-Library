@@ -10,7 +10,7 @@ public interface MovieRepository {
 
     Movie getById(int id);
 
-    Movie getByTitle(String title);
+    boolean getByTitle(String title);
 
     void create(Movie movie);
     void delete(Movie movie);

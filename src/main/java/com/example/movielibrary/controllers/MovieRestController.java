@@ -43,8 +43,9 @@ public class MovieRestController {
     @PutMapping("/{id}")
     public void update(@PathVariable int id, @RequestBody MovieRequestDto dto){
 
-        Movie movie = mapper.fromDto(id, dto);
-        service.update(movie);
+        Movie movie = service.getById(id);
+        Movie movieToUpdate = mapper.fromDto(dto, movie);
+        service.update(movieToUpdate);
 
     }
     @DeleteMapping("/{id}")
