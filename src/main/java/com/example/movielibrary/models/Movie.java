@@ -1,12 +1,8 @@
 package com.example.movielibrary.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Size;
 
-import java.time.Year;
-import java.util.Date;
 
 @Entity
 @Table(name = "movies")
@@ -25,7 +21,7 @@ public class Movie {
     @Column(name = "release_year")
     private int releaseYear;
 
-    private int rating;
+    private double rating;
 
     public Movie(){}
 
@@ -68,11 +64,11 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 }
