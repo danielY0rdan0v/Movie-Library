@@ -1,7 +1,6 @@
 package com.example.movielibrary.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 
 
 @Entity

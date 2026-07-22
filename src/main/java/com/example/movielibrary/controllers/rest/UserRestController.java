@@ -7,11 +7,9 @@ import com.example.movielibrary.models.User;
 import com.example.movielibrary.models.UserRequestDto;
 import com.example.movielibrary.services.UserService;
 import com.example.movielibrary.utils.ModelMapper;
-import jakarta.persistence.Entity;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
