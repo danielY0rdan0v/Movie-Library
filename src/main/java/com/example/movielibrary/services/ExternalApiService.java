@@ -1,7 +1,5 @@
 package com.example.movielibrary.services;
 
-import com.example.movielibrary.config.RestClientConfig;
-import com.example.movielibrary.models.MovieResponseDto;
 import com.example.movielibrary.models.OdbmResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +9,7 @@ import org.springframework.web.client.RestClient;
 @Service
 public class ExternalApiService {
 
-    private RestClient restClient;
+    private final RestClient restClient;
 
     @Value("${omdb.api.key}")
     private String apikey;
@@ -21,7 +19,7 @@ public class ExternalApiService {
         this.restClient = restClient;
     }
 
-    public OdbmResponseDto searchByTitle(String title){
+    public OdbmResponseDto searchMovie(String title, int year){
 
         return restClient.get()
                 .uri(
@@ -30,6 +28,7 @@ public class ExternalApiService {
                                         .path("/")
                                         .queryParam("apikey", apikey)
                                         .queryParam("t", title)
+                                        .queryParam("y", year)
                                         .build())
                 .retrieve()
                 .body(OdbmResponseDto.class);

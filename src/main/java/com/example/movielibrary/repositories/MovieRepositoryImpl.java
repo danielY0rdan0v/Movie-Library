@@ -27,18 +27,8 @@ public class MovieRepositoryImpl implements MovieRepository{
 
     @Override
     public Movie getById(int id) {
-        return entityManager.createQuery("FROM Movie WHERE id =:id", Movie.class)
-                .setParameter("id", id)
-                .getSingleResult();
-    }
 
-    @Override
-    public boolean getByTitle(String title) {
-        List<Movie> movies = entityManager.createQuery("FROM Movie WHERE title = :title", Movie.class)
-                .setParameter("title", title)
-                .getResultList();
-
-        return movies.size() > 0;
+        return entityManager.find(Movie.class, id);
     }
 
     @Override

@@ -1,10 +1,14 @@
 package com.example.movielibrary.controllers;
 
+import com.example.movielibrary.exceptions.EntityNotFoundException;
 import com.example.movielibrary.models.Movie;
 import com.example.movielibrary.models.MovieRequestDto;
+import com.example.movielibrary.models.MovieResponseDto;
 import com.example.movielibrary.services.MovieService;
 import com.example.movielibrary.utils.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,9 +31,13 @@ public class MovieRestController {
     }
 
     @GetMapping("/{id}")
-    public Movie getById(@PathVariable int id){
+    public MovieResponseDto getById(@PathVariable int id){
 
-        return service.getById(id);
+        try{
+            return mapper.toDto(service.getById(id));
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 
     @PostMapping()
@@ -43,15 +51,24 @@ public class MovieRestController {
     @PutMapping("/{id}")
     public void update(@PathVariable int id, @RequestBody MovieRequestDto dto){
 
-        Movie movie = service.getById(id);
-        Movie movieToUpdate = mapper.fromDto(dto, movie);
-        service.update(movieToUpdate);
+        try{
+            Movie movie = service.getById(id);
+            Movie movieToUpdate = mapper.fromDto(dto, movie);
+            service.update(movieToUpdate);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+
+        }
 
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
 
-        service.delete(id);
+        try{
+            service.delete(id);
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 
+        }
     }
 }

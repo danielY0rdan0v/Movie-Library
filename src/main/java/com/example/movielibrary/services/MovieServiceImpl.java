@@ -5,7 +5,6 @@ import com.example.movielibrary.models.Movie;
 import com.example.movielibrary.models.OdbmResponseDto;
 import com.example.movielibrary.repositories.MovieRepository;
 import com.example.movielibrary.utils.ModelMapper;
-import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService{
 
     MovieRepository repository;
-    ExternalApiService service;
+    ExternalApiService apiService;
     ModelMapper mapper;
 
     @Autowired
@@ -23,7 +22,7 @@ public class MovieServiceImpl implements MovieService{
                             ExternalApiService service,
                             ModelMapper mapper){
         this.repository = repository;
-        this.service = service;
+        this.apiService = service;
         this.mapper = mapper;
     }
 
@@ -34,26 +33,27 @@ public class MovieServiceImpl implements MovieService{
 
     @Override
     public Movie getById(int id) {
-        try{
-            return repository.getById(id);
-        }catch (NoResultException e){
-            throw new EntityNotFoundException("Not Found!"); //TODO fix
+
+        Movie movie = repository.getById(id);
+        if (movie != null){
+            return movie;
+        }else {
+            throw new EntityNotFoundException("Movie with id " + id + " was Not Found!");
         }
     }
-
 
 
     @Override
     public void create(Movie movie) {
 
 
-            OdbmResponseDto dto = service.searchByTitle(movie.getTitle());
+        OdbmResponseDto dto = apiService.searchMovie(movie.getTitle(), movie.getReleaseYear());
 
-            if (dto.title() != null) {
-                Movie movieFromApi = mapper.fromDto(dto);
-                repository.create(movieFromApi);
-            }else {
-                repository.create(movie);
+        if (dto.title() != null && dto.year() != null) {
+            Movie movieFromApi = mapper.fromDto(dto);
+            repository.create(movieFromApi);
+        } else {
+            repository.create(movie);
         }
 
     }
