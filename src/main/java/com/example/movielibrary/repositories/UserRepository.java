@@ -10,6 +10,9 @@ public interface UserRepository {
 
     User getById(int id);
 
+    boolean isEmailExist(String email);
+    boolean isUsernameExist(String username);
+
     void create(User user);
 
     void update(User user);
