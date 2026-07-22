@@ -1,4 +1,4 @@
-package com.example.movielibrary.controllers;
+package com.example.movielibrary.controllers.rest;
 
 import com.example.movielibrary.exceptions.EntityNotFoundException;
 import com.example.movielibrary.models.Movie;

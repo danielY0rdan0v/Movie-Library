@@ -12,6 +12,8 @@ public class User {
 
     private String username;
 
+    private String password;
+
     @Column(name = "first_name")
     private String firstName;
 
@@ -25,8 +27,9 @@ public class User {
 
     public User(){}
 
-    public User(String username, String firstName, String lastName, String email, boolean isAdmin) {
+    public User(String username,String password, String firstName, String lastName, String email, boolean isAdmin) {
         this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -79,5 +82,13 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

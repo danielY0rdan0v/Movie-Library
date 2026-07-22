@@ -1,9 +1,6 @@
 package com.example.movielibrary.utils;
 
-import com.example.movielibrary.models.Movie;
-import com.example.movielibrary.models.MovieRequestDto;
-import com.example.movielibrary.models.MovieResponseDto;
-import com.example.movielibrary.models.OdbmResponseDto;
+import com.example.movielibrary.models.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -45,6 +42,29 @@ public class ModelMapper {
         dto.setRating(movie.getRating());
 
         return dto;
+    }
+
+    public User fromDto(UserRequestDto dto){
+
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+
+        return user;
+
+    }
+    public User fromDtoUpdate(UpdateUserRequestDto dto){
+
+        User user = new User();
+        user.setPassword(dto.getPassword());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+
+        return user;
+
     }
 
     private double tryParseDouble(String value, double defaultValue) {
