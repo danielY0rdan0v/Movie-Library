@@ -9,6 +9,7 @@ public interface UserRepository {
     List<User> getAll();
 
     User getById(int id);
+    User getByUsername(String username);
 
     boolean isEmailExist(String email);
     boolean isUsernameExist(String username);

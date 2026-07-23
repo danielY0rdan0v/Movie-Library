@@ -29,6 +29,15 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    public User getByUsername(String username) {
+        List<User> user = entityManager.createQuery("FROM User WHERE username = :username", User.class)
+                .setParameter("username", username)
+                .getResultList();
+
+        return user.isEmpty() ? null : user.get(0);
+    }
+
+    @Override
     public boolean isEmailExist(String email) {
         List<User> user =  entityManager.createQuery("FROM User WHERE email = :email", User.class)
                 .setParameter("email", email)

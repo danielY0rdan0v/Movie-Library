@@ -5,6 +5,7 @@ import com.example.movielibrary.models.movie.MovieRequestDto;
 import com.example.movielibrary.models.movie.MovieResponseDto;
 import com.example.movielibrary.models.movie.Status;
 import com.example.movielibrary.models.omdb.OmdbResponseDto;
+import com.example.movielibrary.models.user.Role;
 import com.example.movielibrary.models.user.UpdateUserRequestDto;
 import com.example.movielibrary.models.user.User;
 import com.example.movielibrary.models.user.UserRequestDto;
@@ -68,6 +69,7 @@ public class ModelMapper {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
+        user.setRole(Role.USER);
 
         return user;
 
