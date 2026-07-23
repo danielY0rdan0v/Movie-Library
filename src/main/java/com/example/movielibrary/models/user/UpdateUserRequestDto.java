@@ -1,4 +1,4 @@
-package com.example.movielibrary.models;
+package com.example.movielibrary.models.user;
 
 public class UpdateUserRequestDto {
 

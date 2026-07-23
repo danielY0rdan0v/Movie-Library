@@ -1,4 +1,4 @@
-package com.example.movielibrary.models;
+package com.example.movielibrary.models.user;
 
 import jakarta.persistence.*;
 
@@ -22,18 +22,19 @@ public class User {
 
     private String email;
 
-    @Column(name = "admin")
-    private boolean isAdmin;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public User(){}
 
-    public User(String username,String password, String firstName, String lastName, String email, boolean isAdmin) {
+    public User(String username,String password, String firstName, String lastName, String email, Role role) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.isAdmin = isAdmin;
+        this.role = role;
     }
 
     public int getId() {
@@ -76,12 +77,12 @@ public class User {
         this.email = email;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
+    public Role getRole() {
+        return role;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getPassword() {

@@ -2,9 +2,9 @@ package com.example.movielibrary.controllers.rest;
 
 import com.example.movielibrary.exceptions.DuplicateEntityException;
 import com.example.movielibrary.exceptions.EntityNotFoundException;
-import com.example.movielibrary.models.UpdateUserRequestDto;
-import com.example.movielibrary.models.User;
-import com.example.movielibrary.models.UserRequestDto;
+import com.example.movielibrary.models.user.UpdateUserRequestDto;
+import com.example.movielibrary.models.user.User;
+import com.example.movielibrary.models.user.UserRequestDto;
 import com.example.movielibrary.services.UserService;
 import com.example.movielibrary.utils.ModelMapper;
 import jakarta.validation.Valid;
@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth")
 public class UserRestController {
 
     private final UserService service;
@@ -43,7 +43,7 @@ public class UserRestController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public void create(@Valid @RequestBody UserRequestDto dto){
 
         User user = mapper.fromDto(dto);

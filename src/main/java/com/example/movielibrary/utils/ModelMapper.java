@@ -1,6 +1,13 @@
 package com.example.movielibrary.utils;
 
-import com.example.movielibrary.models.*;
+import com.example.movielibrary.models.movie.Movie;
+import com.example.movielibrary.models.movie.MovieRequestDto;
+import com.example.movielibrary.models.movie.MovieResponseDto;
+import com.example.movielibrary.models.movie.Status;
+import com.example.movielibrary.models.omdb.OmdbResponseDto;
+import com.example.movielibrary.models.user.UpdateUserRequestDto;
+import com.example.movielibrary.models.user.User;
+import com.example.movielibrary.models.user.UserRequestDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,17 +19,26 @@ public class ModelMapper {
         movie.setTitle(movieRequestDto.getTitle());
         movie.setDirector(movieRequestDto.getDirector());
         movie.setReleaseYear(movieRequestDto.getReleaseYear());
+        movie.setStatus(Status.PENDING);
 
         return movie;
     }
 
-    public Movie fromDto(OdbmResponseDto odbmResponseDto){
+    public Movie fromDto(OmdbResponseDto omdbResponseDto){
         Movie movie = new Movie();
 
-        movie.setTitle(odbmResponseDto.title());
-        movie.setDirector(odbmResponseDto.director());
-        movie.setReleaseYear(Integer.parseInt( odbmResponseDto.year() ));
-        movie.setRating(tryParseDouble(odbmResponseDto.rating(), 0.0));
+        movie.setTitle(omdbResponseDto.title());
+        movie.setDirector(omdbResponseDto.director());
+        movie.setReleaseYear(Integer.parseInt( omdbResponseDto.year() ));
+        movie.setRating(tryParseDouble(omdbResponseDto.rating(), 0.0));
+        return movie;
+    }
+    public Movie fromDto(Movie movie, OmdbResponseDto omdbResponseDto){
+
+        movie.setTitle(omdbResponseDto.title());
+        movie.setDirector(omdbResponseDto.director());
+        movie.setReleaseYear(Integer.parseInt( omdbResponseDto.year() ));
+        movie.setRating(tryParseDouble(omdbResponseDto.rating(), 0.0));
         return movie;
     }
 

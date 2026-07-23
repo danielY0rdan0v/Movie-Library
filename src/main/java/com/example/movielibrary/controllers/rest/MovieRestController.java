@@ -1,12 +1,13 @@
 package com.example.movielibrary.controllers.rest;
 
 import com.example.movielibrary.exceptions.EntityNotFoundException;
-import com.example.movielibrary.models.Movie;
-import com.example.movielibrary.models.MovieRequestDto;
-import com.example.movielibrary.models.MovieResponseDto;
+import com.example.movielibrary.models.movie.Movie;
+import com.example.movielibrary.models.movie.MovieRequestDto;
+import com.example.movielibrary.models.movie.MovieResponseDto;
 import com.example.movielibrary.services.MovieService;
 import com.example.movielibrary.utils.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,10 +42,10 @@ public class MovieRestController {
     }
 
     @PostMapping()
-    public void create(@RequestBody MovieRequestDto dto){
+    public ResponseEntity<Movie> create(@RequestBody MovieRequestDto dto){
 
-        Movie movie = mapper.fromDto(dto);
-        service.create(movie);
+        Movie movie = service.create(dto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(movie);
 
     }
 

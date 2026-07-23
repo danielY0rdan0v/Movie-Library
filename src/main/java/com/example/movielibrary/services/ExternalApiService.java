@@ -1,6 +1,6 @@
 package com.example.movielibrary.services;
 
-import com.example.movielibrary.models.OdbmResponseDto;
+import com.example.movielibrary.models.omdb.OmdbResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class ExternalApiService {
         this.restClient = restClient;
     }
 
-    public OdbmResponseDto searchMovie(String title, int year){
+    public OmdbResponseDto searchMovie(String title, int year){
 
         return restClient.get()
                 .uri(
@@ -31,7 +31,7 @@ public class ExternalApiService {
                                         .queryParam("y", year)
                                         .build())
                 .retrieve()
-                .body(OdbmResponseDto.class);
+                .body(OmdbResponseDto.class);
     }
 
 }

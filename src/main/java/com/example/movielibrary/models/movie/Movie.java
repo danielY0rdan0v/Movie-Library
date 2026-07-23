@@ -1,4 +1,4 @@
-package com.example.movielibrary.models;
+package com.example.movielibrary.models.movie;
 
 import jakarta.persistence.*;
 
@@ -22,13 +22,17 @@ public class Movie {
 
     private double rating;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public Movie(){}
 
-    public Movie(String title, String director, int releaseYear, int rating) {
+    public Movie(String title, String director, int releaseYear, int rating, Status status) {
         this.title = title;
         this.director = director;
         this.releaseYear = releaseYear;
         this.rating = rating;
+        this.status = status;
     }
 
     public int getId() {
@@ -69,5 +73,13 @@ public class Movie {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

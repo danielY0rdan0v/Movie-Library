@@ -2,7 +2,7 @@ package com.example.movielibrary.services;
 
 import com.example.movielibrary.exceptions.DuplicateEntityException;
 import com.example.movielibrary.exceptions.EntityNotFoundException;
-import com.example.movielibrary.models.User;
+import com.example.movielibrary.models.user.User;
 import com.example.movielibrary.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.example.movielibrary.repositories;
 
-import com.example.movielibrary.models.User;
+import com.example.movielibrary.models.user.User;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.example.movielibrary.services;
 
 import com.example.movielibrary.exceptions.EntityNotFoundException;
-import com.example.movielibrary.models.Movie;
-import com.example.movielibrary.models.OdbmResponseDto;
+import com.example.movielibrary.models.movie.Movie;
+import com.example.movielibrary.models.movie.MovieRequestDto;
 import com.example.movielibrary.repositories.MovieRepository;
 import com.example.movielibrary.utils.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +14,15 @@ import java.util.List;
 public class MovieServiceImpl implements MovieService{
 
     MovieRepository repository;
-    ExternalApiService apiService;
+    MovieEnrichmentService enrichmentService;
     ModelMapper mapper;
 
     @Autowired
     public MovieServiceImpl(MovieRepository repository,
-                            ExternalApiService service,
+                            MovieEnrichmentService enrichmentService,
                             ModelMapper mapper){
         this.repository = repository;
-        this.apiService = service;
+        this.enrichmentService = enrichmentService;
         this.mapper = mapper;
     }
 
@@ -44,18 +44,15 @@ public class MovieServiceImpl implements MovieService{
 
 
     @Override
-    public void create(Movie movie) {
+    public Movie create(MovieRequestDto dto) {
 
 
-        OdbmResponseDto dto = apiService.searchMovie(movie.getTitle(), movie.getReleaseYear());
+        Movie movie = mapper.fromDto(dto);
+        repository.create(movie);
 
-        if (dto.title() != null && dto.year() != null) {
-            Movie movieFromApi = mapper.fromDto(dto);
-            repository.create(movieFromApi);
-        } else {
-            repository.create(movie);
-        }
+        enrichmentService.enrichMovieAsync(movie.getId(), movie.getTitle(), movie.getReleaseYear());
 
+        return movie;
     }
 
     @Override

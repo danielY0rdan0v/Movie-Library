@@ -1,6 +1,6 @@
 package com.example.movielibrary.repositories;
 
-import com.example.movielibrary.models.Movie;
+import com.example.movielibrary.models.movie.Movie;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,6 +47,7 @@ public class MovieRepositoryImpl implements MovieRepository{
     }
 
     @Override
+    @Transactional
     public void update(Movie movie) {
 
         entityManager.merge(movie);

@@ -1,20 +1,14 @@
-package com.example.movielibrary.models;
-
-public class MovieRequestDto {
-
-    private String title;
-    private String director;
-    private int releaseYear;
+package com.example.movielibrary.models.movie;
 
 
-    public MovieRequestDto(){
+public class MovieResponseDto {
 
-    }
+    String title;
+    String director;
+    int releaseYear;
+    double rating;
 
-    public MovieRequestDto(String title, String director, int releaseYear) {
-        this.title = title;
-        this.director = director;
-        this.releaseYear = releaseYear;
+    public MovieResponseDto() {
     }
 
     public String getTitle() {
@@ -39,5 +33,13 @@ public class MovieRequestDto {
 
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }
