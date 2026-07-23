@@ -29,7 +29,7 @@ public class UserRestController {
         this.mapper = mapper;
     }
 
-    @GetMapping
+    @GetMapping("/users")
     public List<User> getAll(){
        return service.getAll();
     }
