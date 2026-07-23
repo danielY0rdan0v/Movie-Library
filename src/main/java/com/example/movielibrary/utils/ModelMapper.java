@@ -25,15 +25,6 @@ public class ModelMapper {
         return movie;
     }
 
-    public Movie fromDto(OmdbResponseDto omdbResponseDto){
-        Movie movie = new Movie();
-
-        movie.setTitle(omdbResponseDto.title());
-        movie.setDirector(omdbResponseDto.director());
-        movie.setReleaseYear(Integer.parseInt( omdbResponseDto.year() ));
-        movie.setRating(tryParseDouble(omdbResponseDto.rating(), 0.0));
-        return movie;
-    }
     public Movie fromDto(Movie movie, OmdbResponseDto omdbResponseDto){
 
         movie.setTitle(omdbResponseDto.title());

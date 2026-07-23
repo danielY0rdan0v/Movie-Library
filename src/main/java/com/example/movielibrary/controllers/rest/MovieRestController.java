@@ -27,7 +27,7 @@ public class MovieRestController {
     }
 
     @GetMapping()
-    public List<Movie> getAll(){
+    public List<MovieResponseDto> getAll(){
         return service.getAll();
     }
 
@@ -42,20 +42,22 @@ public class MovieRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<Movie> create(@RequestBody MovieRequestDto dto){
+    public ResponseEntity<MovieResponseDto> create(@RequestBody MovieRequestDto dto){
 
-        Movie movie = service.create(dto);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(movie);
+        MovieResponseDto movie = mapper.toDto(service.create(dto));
+        return  ResponseEntity.status(HttpStatus.CREATED).body(movie);
 
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable int id, @RequestBody MovieRequestDto dto){
+    public ResponseEntity<MovieResponseDto> update(@PathVariable int id, @RequestBody MovieRequestDto dto){
 
         try{
             Movie movie = service.getById(id);
             Movie movieToUpdate = mapper.fromDto(dto, movie);
-            service.update(movieToUpdate);
+            Movie updated = service.update(movieToUpdate);
+            return ResponseEntity.ok(mapper.toDto(updated));
+
         }catch (EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 
@@ -63,10 +65,11 @@ public class MovieRestController {
 
     }
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id){
+    public ResponseEntity<Void> delete(@PathVariable int id){
 
         try{
             service.delete(id);
+            return ResponseEntity.noContent().build();
         }catch (EntityNotFoundException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 

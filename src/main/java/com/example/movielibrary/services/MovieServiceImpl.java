@@ -3,6 +3,7 @@ package com.example.movielibrary.services;
 import com.example.movielibrary.exceptions.EntityNotFoundException;
 import com.example.movielibrary.models.movie.Movie;
 import com.example.movielibrary.models.movie.MovieRequestDto;
+import com.example.movielibrary.models.movie.MovieResponseDto;
 import com.example.movielibrary.repositories.MovieRepository;
 import com.example.movielibrary.utils.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,13 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public List<Movie> getAll() {
-        return repository.getAll();
+    public List<MovieResponseDto> getAll() {
+
+        return repository
+                .getAll()
+                .stream()
+                .map(mapper::toDto)
+                .toList();
     }
 
     @Override
@@ -46,7 +52,6 @@ public class MovieServiceImpl implements MovieService{
     @Override
     public Movie create(MovieRequestDto dto) {
 
-
         Movie movie = mapper.fromDto(dto);
         repository.create(movie);
 
@@ -56,9 +61,9 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public void update(Movie movie) {
+    public Movie update(Movie movie) {
 
-        repository.update(movie);
+        return repository.update(movie);
     }
 
     @Override

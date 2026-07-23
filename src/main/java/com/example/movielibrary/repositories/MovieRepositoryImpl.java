@@ -48,9 +48,9 @@ public class MovieRepositoryImpl implements MovieRepository{
 
     @Override
     @Transactional
-    public void update(Movie movie) {
+    public Movie update(Movie movie) {
 
-        entityManager.merge(movie);
+        return entityManager.merge(movie);
 
     }
 }

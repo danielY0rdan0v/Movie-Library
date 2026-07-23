@@ -12,5 +12,5 @@ public interface MovieRepository {
 
     void create(Movie movie);
     void delete(Movie movie);
-    void update(Movie movie);
+    Movie update(Movie movie);
 }
