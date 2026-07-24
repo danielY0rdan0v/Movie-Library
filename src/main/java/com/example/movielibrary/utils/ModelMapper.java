@@ -5,10 +5,7 @@ import com.example.movielibrary.models.movie.MovieRequestDto;
 import com.example.movielibrary.models.movie.MovieResponseDto;
 import com.example.movielibrary.models.movie.Status;
 import com.example.movielibrary.models.omdb.OmdbResponseDto;
-import com.example.movielibrary.models.user.Role;
-import com.example.movielibrary.models.user.UpdateUserRequestDto;
-import com.example.movielibrary.models.user.User;
-import com.example.movielibrary.models.user.UserRequestDto;
+import com.example.movielibrary.models.user.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -48,6 +45,17 @@ public class ModelMapper {
         dto.setDirector(movie.getDirector());
         dto.setReleaseYear(movie.getReleaseYear());
         dto.setRating(movie.getRating());
+
+        return dto;
+    }
+
+    public UserResponseDto toDto(User user){
+        UserResponseDto dto = new UserResponseDto();
+
+        dto.setUsername(user.getUsername());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setEmail(user.getEmail());
 
         return dto;
     }

@@ -26,7 +26,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/movies/**")
                         .hasAnyRole("USER","ADMIN")
 
-                        .requestMatchers("/api/movies/**")
+                        .requestMatchers("/api/movies/**", "/api/auth/**")
                         .hasAnyRole("ADMIN")
 
                         .anyRequest().authenticated())

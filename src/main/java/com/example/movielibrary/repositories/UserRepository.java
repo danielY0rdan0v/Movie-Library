@@ -14,9 +14,9 @@ public interface UserRepository {
     boolean isEmailExist(String email);
     boolean isUsernameExist(String username);
 
-    void create(User user);
+    User create(User user);
 
-    void update(User user);
+    User update(User user);
 
     void delete(User user);
 

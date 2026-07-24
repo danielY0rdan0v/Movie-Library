@@ -3,7 +3,9 @@ package com.example.movielibrary.services;
 import com.example.movielibrary.exceptions.DuplicateEntityException;
 import com.example.movielibrary.exceptions.EntityNotFoundException;
 import com.example.movielibrary.models.user.User;
+import com.example.movielibrary.models.user.UserResponseDto;
 import com.example.movielibrary.repositories.UserRepository;
+import com.example.movielibrary.utils.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,16 +17,19 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper mapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder){
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder,
+                           ModelMapper mapper){
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.mapper = mapper;
     }
 
     @Override
-    public List<User> getAll() {
-        return repository.getAll();
+    public List<UserResponseDto> getAll() {
+        return repository.getAll().stream().map(mapper::toDto).toList();
     }
 
     @Override
@@ -38,19 +43,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void create(User user) {
+    public User create(User user) {
 
         checkIfUserExists(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        repository.create(user);
+        return repository.create(user);
 
     }
 
     @Override
-    public void update(User user, int id) {
+    public User update(User user, int id) {
 
         getById(id);
-        repository.update(user);
+        return repository.update(user);
     }
 
     @Override

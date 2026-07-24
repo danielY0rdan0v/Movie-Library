@@ -57,16 +57,17 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Transactional
     @Override
-    public void create(User user) {
+    public User create(User user) {
 
         entityManager.persist(user);
+        return user;
     }
 
     @Transactional
     @Override
-    public void update(User user) {
+    public User update(User user) {
 
-        entityManager.merge(user);
+        return entityManager.merge(user);
     }
 
     @Transactional
