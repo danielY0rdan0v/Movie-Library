@@ -10,6 +10,8 @@ public interface MovieRepository {
 
     Movie getById(int id);
 
+    boolean existsByTitle(String title, int year);
+
     void create(Movie movie);
     void delete(Movie movie);
     Movie update(Movie movie);

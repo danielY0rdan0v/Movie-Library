@@ -1,5 +1,6 @@
 package com.example.movielibrary.services;
 
+import com.example.movielibrary.exceptions.DuplicateEntityException;
 import com.example.movielibrary.exceptions.EntityNotFoundException;
 import com.example.movielibrary.models.movie.Movie;
 import com.example.movielibrary.models.movie.MovieRequestDto;
@@ -53,7 +54,12 @@ public class MovieServiceImpl implements MovieService{
     public Movie create(MovieRequestDto dto) {
 
         Movie movie = mapper.fromDto(dto);
-        repository.create(movie);
+        if (!repository.existsByTitle(movie.getTitle(), movie.getReleaseYear())){
+            repository.create(movie);
+        }else {
+            throw new DuplicateEntityException("Movie with title " + dto.getTitle()+ " already exists!");
+        }
+
 
         enrichmentService.enrichMovieAsync(movie.getId(), movie.getTitle(), movie.getReleaseYear());
 
@@ -72,4 +78,5 @@ public class MovieServiceImpl implements MovieService{
         Movie movie = getById(id);
         repository.delete(movie);
     }
+
 }

@@ -32,6 +32,17 @@ public class MovieRepositoryImpl implements MovieRepository{
     }
 
     @Override
+    public boolean existsByTitle(String title, int year) {
+
+        List<Movie> movie = entityManager.createQuery("FROM Movie WHERE title =:title AND releaseYear = :year", Movie.class)
+                .setParameter("title", title)
+                .setParameter("year", year)
+                .getResultList();
+
+        return !movie.isEmpty();
+    }
+
+    @Override
     @Transactional
     public void create(Movie movie) {
 

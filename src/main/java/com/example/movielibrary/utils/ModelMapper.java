@@ -25,8 +25,11 @@ public class ModelMapper {
     public Movie fromDto(Movie movie, OmdbResponseDto omdbResponseDto){
 
         movie.setTitle(omdbResponseDto.title());
-        movie.setDirector(omdbResponseDto.director());
-        movie.setReleaseYear(Integer.parseInt( omdbResponseDto.year() ));
+        if (!omdbResponseDto.director().equalsIgnoreCase("N/A")){
+            movie.setDirector(omdbResponseDto.director());
+        }
+        movie.setReleaseYear(tryParseYear(omdbResponseDto.year(), movie.getReleaseYear()));
+
         movie.setRating(tryParseDouble(omdbResponseDto.rating(), 0.0));
         return movie;
     }
@@ -89,6 +92,14 @@ public class ModelMapper {
             return Double.parseDouble(value);
         } catch (NumberFormatException e) {
             return defaultValue;
+        }
+    }
+
+    private int tryParseYear(String dtoYear, int movieYear){
+        try {
+            return Integer.parseInt(dtoYear);
+        }catch (NumberFormatException e){
+            return movieYear;
         }
     }
 

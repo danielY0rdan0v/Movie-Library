@@ -8,6 +8,8 @@ import com.example.movielibrary.models.user.UserRequestDto;
 import com.example.movielibrary.models.user.UserResponseDto;
 import com.example.movielibrary.services.UserService;
 import com.example.movielibrary.utils.ModelMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/users")
+@Tag(name = "Manage Users", description = "CRUD operations for Users")
 public class UserRestController {
 
     private final UserService service;
@@ -31,12 +34,14 @@ public class UserRestController {
         this.mapper = mapper;
     }
 
-    @GetMapping("/users")
+    @GetMapping()
+    @Operation(summary = "Returns all Users")
     public List<UserResponseDto> getAll(){
        return service.getAll();
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
+    @Operation(summary = "Returns a User by Id")
     public UserResponseDto getById(@PathVariable int id){
         try{
             return mapper.toDto(service.getById(id));
@@ -46,7 +51,8 @@ public class UserRestController {
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping()
+    @Operation(summary = "Creates a User")
     public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserRequestDto dto){
 
         User user = mapper.fromDto(dto);
@@ -61,6 +67,7 @@ public class UserRestController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Updates a User by Id")
     public ResponseEntity<UserResponseDto> update(@PathVariable int id, @Valid @RequestBody UpdateUserRequestDto dto){
 
         User user = mapper.fromDtoUpdate(dto);
@@ -74,6 +81,7 @@ public class UserRestController {
 
     }
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deletes a User by Id")
     public ResponseEntity<Void> delete(@PathVariable int id){
 
         try {
