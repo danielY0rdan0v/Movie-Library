@@ -9,6 +9,7 @@ import com.example.movielibrary.models.user.UserResponseDto;
 import com.example.movielibrary.services.UserService;
 import com.example.movielibrary.utils.ModelMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,15 @@ public class UserRestController {
         this.mapper = mapper;
     }
 
+    @SecurityRequirement(name = "basicAuth")
     @GetMapping()
     @Operation(summary = "Returns all Users")
     public List<UserResponseDto> getAll(){
        return service.getAll();
     }
 
+
+    @SecurityRequirement(name = "basicAuth")
     @GetMapping("/{id}")
     @Operation(summary = "Returns a User by Id")
     public UserResponseDto getById(@PathVariable int id){
@@ -66,6 +70,8 @@ public class UserRestController {
 
     }
 
+
+    @SecurityRequirement(name = "basicAuth")
     @PutMapping("/{id}")
     @Operation(summary = "Updates a User by Id")
     public ResponseEntity<UserResponseDto> update(@PathVariable int id, @Valid @RequestBody UpdateUserRequestDto dto){
@@ -80,6 +86,8 @@ public class UserRestController {
         }
 
     }
+
+    @SecurityRequirement(name = "basicAuth")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletes a User by Id")
     public ResponseEntity<Void> delete(@PathVariable int id){

@@ -8,6 +8,7 @@ import com.example.movielibrary.models.movie.MovieResponseDto;
 import com.example.movielibrary.services.MovieService;
 import com.example.movielibrary.utils.ModelMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,14 @@ public class MovieRestController {
         this.mapper = mapper;
     }
 
+    @SecurityRequirement(name = "basicAuth")
     @GetMapping()
     @Operation(summary = "Returns all Movies")
     public List<MovieResponseDto> getAll(){
         return service.getAll();
     }
 
+    @SecurityRequirement(name = "basicAuth")
     @GetMapping("/{id}")
     @Operation(summary = "Returns Movie by Id")
     public MovieResponseDto getById(@PathVariable int id){
@@ -49,6 +52,7 @@ public class MovieRestController {
         }
     }
 
+    @SecurityRequirement(name = "basicAuth")
     @PostMapping()
     @Operation(summary = "Creates a movie, if a movie is found in the external api it replaces the fields with the api's")
     public ResponseEntity<MovieResponseDto> create(@RequestBody MovieRequestDto dto){
@@ -62,6 +66,7 @@ public class MovieRestController {
 
     }
 
+    @SecurityRequirement(name = "basicAuth")
     @PutMapping("/{id}")
     @Operation(summary = "Updates a Movie by Id")
     public ResponseEntity<MovieResponseDto> update(@PathVariable int id, @RequestBody MovieRequestDto dto){
@@ -78,6 +83,8 @@ public class MovieRestController {
         }
 
     }
+
+    @SecurityRequirement(name = "basicAuth")
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletes a Movie")
     public ResponseEntity<Void> delete(@PathVariable int id){
