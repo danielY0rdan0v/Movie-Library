@@ -2,6 +2,7 @@ package com.example.movielibrary.services;
 
 import com.example.movielibrary.exceptions.DuplicateEntityException;
 import com.example.movielibrary.exceptions.EntityNotFoundException;
+import com.example.movielibrary.models.user.Role;
 import com.example.movielibrary.models.user.User;
 import com.example.movielibrary.models.user.UserResponseDto;
 import com.example.movielibrary.repositories.UserRepository;
@@ -40,6 +41,17 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException("User with id " + id + " was not found!");
         }
         return user;
+    }
+
+    @Override
+    public void makeAdmin(int id) {
+
+        User user = getById(id);
+        if (user.getRole() == Role.ADMIN){
+            throw new DuplicateEntityException("User is already Admin!");
+        }
+        user.setRole(Role.ADMIN);
+        repository.update(user);
     }
 
     @Override

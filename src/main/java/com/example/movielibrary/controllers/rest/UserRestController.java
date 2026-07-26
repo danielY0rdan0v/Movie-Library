@@ -99,4 +99,20 @@ public class UserRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
+    @SecurityRequirement(name = "basicAuth")
+    @PutMapping("/{id}/promotion")
+    @Operation(summary = "Make a user Admin")
+    public ResponseEntity<Void> makeAdmin(@PathVariable int id){
+
+        try{
+            service.makeAdmin(id);
+            return ResponseEntity.ok().build();
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }catch (DuplicateEntityException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+
+    }
 }

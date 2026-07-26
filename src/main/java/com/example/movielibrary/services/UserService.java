@@ -11,6 +11,8 @@ public interface UserService {
 
     User getById(int id);
 
+    void makeAdmin(int id);
+
     User create(User user);
     User update(User user, int id);
     void delete(int id);
