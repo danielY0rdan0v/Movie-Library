@@ -1,9 +1,17 @@
 package com.example.movielibrary.models.movie;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class MovieRequestDto {
 
+    @NotBlank
     private String title;
+    @NotBlank
     private String director;
+    @NotNull
+    @Min(1895)
     private int releaseYear;
 
 
