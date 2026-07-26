@@ -95,3 +95,14 @@ debuggable at the cost of more hand-written boilerplate per entity/DTO pair.
 at the controller layer keeps the HTTP-status decision colocated
 with each endpoint, at the cost of some repetition across controllers.
 - **Status field (`Status.FAILED`/`ENRICHED`) as the mechanism 
+
+## 6. Swagger Documentation
+
+API documentation is generated with **springdoc-openapi**, exposing an interactive UI at `/swagger-ui.html` (backed by `/v3/api-docs`). Both are explicitly whitelisted as public in `SecurityConfig` (`permitAll()`), so the API can be explored without credentials — necessary since Basic Auth would otherwise block the docs UI itself from loading.
+
+Documentation is authored inline via annotations on the controllers rather than a separate spec file:
+
+- `@Tag(name = "...", description = "...")` groups endpoints per controller (e.g. "Manage Users", "Manage Movies") into logical sections in the UI.
+- `@Operation(summary = "...")` gives each endpoint a short, human-readable description (e.g. "Creates a movie, if a movie is found in the external api it replaces the fields with the api's"), so the generated docs stay in sync with the code rather than drifting from a hand-maintained spec.
+- `@SecurityRequirement(name = "basicAuth")` marks which endpoints require authentication in the generated spec, so the Swagger UI correctly prompts for credentials (and the "Try it out" feature works against protected endpoints) even though the annotation has no runtime security effect of its own — enforcement still happens entirely in `SecurityConfig`.
+  This keeps documentation co-located with the endpoint it describes, at the trade-off of relying on developer discipline to keep `@Operation` summaries meaningful and up to date as the API evolves — there is no automated check that a summary still matches an endpoint's actual behavior after a refactor.
