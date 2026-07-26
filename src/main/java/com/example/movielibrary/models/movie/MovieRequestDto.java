@@ -11,7 +11,7 @@ public class MovieRequestDto {
     @NotBlank
     private String director;
     @NotNull
-    @Min(1895)
+    @Min(value = 1895, message = "Invalid Year, the first film was filmed in 1895 year!")
     private int releaseYear;
 
 
